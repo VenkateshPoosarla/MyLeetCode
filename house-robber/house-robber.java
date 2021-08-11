@@ -1,20 +1,24 @@
 class Solution {
     public int rob(int[] nums) {
-        int dp[]=new int[nums.length+1];
-        if(nums.length<3){
-            if(nums.length==1)
-                return nums[0];
-            else
-                return Math.max(nums[0],nums[1]);
+       return simpleRobber(nums,0,nums.length);
+    }
+    public int simpleRobber(int[] nums,int start,int end){
+        int h1=0,h2=0;
+        int sum=0;
+        // if(nums.length<3){
+        // if(nums.length==1){
+        //     return nums[0];
+        // }else{
+        //     return Math.max(nums[0],nums[1]);
+        // }
+        // }
+        // h1=nums[start];
+        // h2=nums[start+1];
+        for(int i=start;i<end;i++){
+            int temp=Math.max(h1+nums[i],h2);
+            h1=h2;
+            h2=temp;
         }
-        dp[1]=nums[0];
-        dp[2]=nums[1];
-        int max=Math.max(nums[0],nums[1]);
-        for(int i=3;i<dp.length;i++){
-            dp[i]=Math.max(dp[i-2],dp[i-3])+nums[i-1];
-            max=Math.max(dp[i],max);
-        }
-        return max;
-        
+        return Math.max(h2,h1);
     }
 }
