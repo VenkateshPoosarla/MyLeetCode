@@ -1,17 +1,22 @@
 class Solution {
     public int lengthLongestPath(String input) {
-    int maxlen = 0;
-    int[] pathlen = new int[input.length()+1];
-    String[] st = input.split("\n");
-    for(String line: st){
-        String name = line.replaceAll("(\t)+","");
-        int depth = line.length() - name.length();
-        if(name.contains("."))
-            maxlen = Math.max(maxlen, pathlen[depth] + name.length());
-        else
-            pathlen[depth+1] = pathlen[depth] + name.length() + 1;
-    }
-    
-    return maxlen;
-}
-}
+        // Space O(N), Time O(N)
+        String[] entries = input.split("\n");
+        int[] lengthTillLevel = new int[entries.length];
+        
+        int maxLen = 0;
+        // Time O(N)
+        for (String entry : entries) {
+            // Level 0 means no \t 
+            int level = entry.lastIndexOf('\t') + 1;
+            // calculate the abs length till the current entry
+            // previous level length + full entry length - the length of \t
+            int currLen = (level > 0 ? lengthTillLevel[level - 1] + 1 : 0) + entry.length() - level;
+            // update the lengthTillLevel array with currLen
+            lengthTillLevel[level] = currLen;
+            if (entry.contains(".")) {
+                // This is a file entry
+                maxLen = Math.max(maxLen, currLen);
+            }
+        }return maxLen;
+}}
