@@ -6,7 +6,7 @@ class Solution {
       String thousand[]=new  String[]{"","M","MM","MMM"};
         int th=num/1000;
         int h=num%1000/100;
-        int t=num%1000%100/10;
+        int t=num%100/10;
         int o=num%10;
         
         return thousand[th]+ hundreds[h]+ tens[t]+ones[o] ;
