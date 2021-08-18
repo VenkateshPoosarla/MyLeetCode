@@ -8,11 +8,9 @@ class Solution {
     }
     String nextnum(String x){
        char ch[]=x.toCharArray();
-        
         char prev=ch[0];
         int count=1;
         StringBuilder sb=new StringBuilder();
-        // count++;
         for(int i=1;i<ch.length;i++){
             if(prev==ch[i]){
                 count++;
