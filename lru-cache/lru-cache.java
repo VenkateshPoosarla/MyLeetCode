@@ -9,7 +9,7 @@ class LRUCache {
         int value;
         int key;
     }
-    // always add at the head
+    // always add new node at the head
     void add(Node node){
         Node secondNode=head.next;
         head.next=node;
