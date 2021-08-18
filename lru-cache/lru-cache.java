@@ -1,73 +1,75 @@
-public class LRUCache {
+class LRUCache {
 
-    private int capacity;
-
-    private Node head = new Node();
-    private Node tail = new Node();
-
-    private Map<Integer, Node> cache;
-
-    public LRUCache(int capacity) {
-        if (capacity < 0) throw new IllegalStateException("Capacity has to be greater than zero");
-        this.capacity = capacity;
-        this.cache = new HashMap<>(capacity);
-        head.next = tail;
-        tail.prev = head;
+    Node head=new Node();
+    Node tail=new Node();
+    
+    class Node{
+        Node prev;
+        Node next;
+        int value;
+        int key;
     }
-
+    // always add at the head
+    void add(Node node){
+        Node secondNode=head.next;
+        head.next=node;
+        node.next=secondNode;
+        node.prev=head;
+        secondNode.prev=node;
+    }
+    void remove(Node node){
+        Node prev=node.prev;
+        Node next=node.next;
+        prev.next=next;
+        next.prev=prev;
+    }
+    Map<Integer,Node> map;
+    int capacity;
+    public LRUCache(int capacity) {
+        if(capacity<0) throw new IllegalStateException("capacity can't be negative");
+         
+        head.next=tail;
+        tail.prev=head;
+        this.capacity=capacity;
+        map=new HashMap<>();
+        
+    }
+    
     public int get(int key) {
-        Node node = cache.get(key);
-        if (node != null) {
+        if(map.containsKey(key)){
+            Node node=map.get(key);
             remove(node);
             add(node);
             return node.value;
         }
         return -1;
     }
-
+    
     public void put(int key, int value) {
-        Node node = cache.get(key);
-        if (node != null) {
-            node.value = value;
+        if(map.containsKey(key)){
+            Node node=map.get(key);
             remove(node);
             add(node);
-        } else {
-            if (cache.size() == capacity) {
-                cache.remove(tail.prev.key);
-                remove(tail.prev);
+            node.value=value;
+        }else{
+            if(map.size()==this.capacity){
+                Node node=tail.prev;
+                remove(node);
+                map.remove(node.key);
             }
-            
-            Node newNode = new Node();
-            newNode.key = key;
-            newNode.value = value;
-            cache.put(key, newNode);
+            Node newNode=new Node();
+            newNode.key=key;
+            newNode.value=value;
             add(newNode);
+            map.put(key,newNode);
+            
         }
     }
-
-    private void add(Node node) {
-        Node headNext = head.next;
-
-        node.next = headNext;
-        headNext.prev = node;
-        head.next = node;
-        node.prev = head;
-        // head -> headNext
-        // head <- headNext
-    }
-
-    private void remove(Node node) {
-        Node next = node.next;
-        Node prev = node.prev;
-
-        prev.next = next;
-        next.prev = prev;
-    }
-
-    static class Node {
-        int key;
-        int value;
-        Node next;
-        Node prev;
-    }
 }
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache obj = new LRUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
