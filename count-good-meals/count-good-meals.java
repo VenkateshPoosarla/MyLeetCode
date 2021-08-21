@@ -8,12 +8,10 @@ class Solution {
             int count=0;
              for(int j=0;j<22;j++){
                 count+=map.getOrDefault(x[j]-deliciousness[i],0);
-                count=count; 
              }
             map.put(deliciousness[i],map.getOrDefault(deliciousness[i],0)+1);
             total+=count;
         }
-       
         return (int)(total%1_000_000_007);
     }
         void calculate(int []x){
