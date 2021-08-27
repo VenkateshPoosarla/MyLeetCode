@@ -11,7 +11,7 @@ class Solution {
                //adding new element
                 arr[idx++]=nums[i-k]==qu.peekFirst()?qu.poll():qu.peekFirst();
            }
-            //removing and new elemnet to dequeu
+            //removing and new elemnet to deque
              removeAndAdd(qu,nums[i]);
         }
         arr[idx++]=qu.peekFirst();
