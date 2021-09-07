@@ -15,22 +15,15 @@
  */
 class Solution {
     public boolean isValidBST(TreeNode root) {
-        Stack<Integer> stack=new Stack<>();
-        isValidBST(root,stack);
-        int prev=stack.pop();
-        while(!stack.isEmpty()){
-            if(prev<=stack.peek()){
-                return false;
-            }else{
-               prev=stack.pop(); 
-            }
-        }
-        return true;
+        boolean [] isvalid=new boolean[1];
+       isValidBST(root,new Stack<Integer>(),isvalid);
+        return !isvalid[0];
     }
-    void isValidBST(TreeNode root, Stack<Integer> stack){
+    void isValidBST(TreeNode root, Stack<Integer> stack,boolean []valid ){
         if(root==null) return ;
-        isValidBST(root.left,stack);
+        isValidBST(root.left,stack,valid);
+        if(!stack.isEmpty() && stack.peek()>=root.val) valid[0]=true;
         stack.push(root.val);
-        isValidBST(root.right,stack);
+        isValidBST(root.right,stack,valid);
     }
 }
